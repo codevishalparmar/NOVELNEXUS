@@ -1,0 +1,95 @@
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+
+function MyBlogs() {
+  const [myBlogs, setMyBlogs] = useState([]);
+
+  useEffect(() => {
+    const fetchMyBlogs = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:4001/api/blogs/my-blogs", {
+          withCredentials: true,
+        });
+        console.log("My-Blog", data);
+        setMyBlogs(data.blogs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMyBlogs();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:4001/api/blogs/delete/${id}`, {
+        withCredentials: true,
+      });
+      toast.success(response.data.message || "Blog deleted successfully");
+      setMyBlogs(myBlogs.filter((blog) => blog._id !== id)); // Remove deleted blog from state
+    } catch (error) {
+      toast.error("Failed to delete blog");
+      console.log("Error deleting blog:", error);
+    }
+  };
+
+  return (
+    <div>
+      <div className="container mx-auto my-12 p-4">
+        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:ml-40">
+          {myBlogs && myBlogs.length > 0 ? (
+            myBlogs.map((element) => (
+              <div
+                className="bg-white shadow-lg rounded-lg overflow-hidden"
+                key={element._id}
+              >
+                {element?.blogImage && (
+                  <img
+                    src={element?.blogImage.url}
+                    alt="blogImg"
+                    className="w-full h-48 object-cover"
+                  />
+                )}
+                <div className="p-4">
+                  <span className="text-sm text-gray-600">{element.category}</span>
+
+                  {/* Title should be clickable and navigate to blog details */}
+                  <h4 className="text-xl font-semibold my-2">
+                    <Link
+                      to={`/blog/${element._id}`}
+                      className="text-blue-600 hover:underline"
+                    >
+                      {element.title}
+                    </Link>
+                  </h4>
+
+                  <div className="flex justify-between mt-4">
+                    <Link
+                      to={`/blog/update/${element._id}`}
+                      className="text-blue-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline"
+                    >
+                      UPDATE
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(element._id)}
+                      className="text-red-500 bg-white rounded-md shadow-lg px-3 py-1 border border-gray-400 hover:underline"
+                    >
+                      DELETE
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500">
+              You have not posted any blog to see!
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default MyBlogs;
