@@ -9,6 +9,7 @@ export const createBlog = async (req, res) => {
         if (!req.files || Object.keys(req.files).length == 0) {
             return res.status(400).json({ message: " Blog is required" });
         }
+
         const { blogImage } = req.files;
         const allowedFormates = ["image/jpeg", "image/png", "image/webp"]
         if (!allowedFormates.includes(blogImage.mimetype)) {
