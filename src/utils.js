@@ -1,0 +1,1 @@
+export const BACKEND_URL = "https://novelnexus-434q.onrender.com"

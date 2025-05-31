@@ -143,11 +143,10 @@ function CreateBlog() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 text-white rounded-lg transition duration-300 ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
-            }`}
+            className={`w-full py-3 text-white rounded-lg transition duration-300 ${loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+              }`}
           >
             {loading ? "Posting..." : "Post Blog"}
           </button>
