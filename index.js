@@ -12,7 +12,7 @@ import cors from "cors";
 
 const app = express()
 dotenv.config()
-const port = process.env.port;
+const PORT = process.env.PORT || 4001;
 const MONGO_URL = process.env.MONGO_URI
 
 //Middleware
@@ -58,6 +58,6 @@ cloudinary.config({
 });
 
 
-app.listen(port, () => {
-    console.log(`Sever is runing on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`Sever is runing on port ${PORT}`)
 })
