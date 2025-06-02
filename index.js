@@ -89,7 +89,7 @@ const MONGO_URL = process.env.MONGO_URI;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const allowedOrigins = ["https://novelnexus.vercel.app", "http://localhost:3000"];
+const allowedOrigins = ["https://novelnexus.vercel.app", "http://localhost:5173"];
 
 app.use(
   cors({
